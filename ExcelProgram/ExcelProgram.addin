@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Excel Program</Text>
+    <Description>Converts CSV file to Mass objects</Description>
+    <Assembly>ExcelProgram.dll</Assembly>
+    <FullClassName>ExcelProgram.Command</FullClassName>
+    <ClientId>1783eaf7-b0de-4708-865e-3711bd1cc4d9</ClientId>
+    <VendorId>DGW</VendorId>
+    <VendorDescription>Daniel Walsh</VendorDescription>
+  </AddIn>
+</RevitAddIns>
