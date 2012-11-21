@@ -9,6 +9,18 @@ namespace ExcelProgram
     {
         private ProjSet _ProjSet;
         private static string _Filename;
+        private static double _xPad;
+        private static double _yPad;
+
+        public static double xPad
+        {
+            get { return _xPad; }
+        }
+
+        public static double yPad
+        {
+            get { return _yPad; }
+        }
 
         public FormFile(ProjSet p)
         {
@@ -51,21 +63,25 @@ namespace ExcelProgram
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            Parser parser = new Parser(_Filename);
-            //Parser.Run(_Filename);
+            _xPad = Convert.ToDouble(this.numericPadX.Value);
+            _yPad = Convert.ToDouble(this.numericPadY.Value);
+
+            Parser parser = new Parser(_Filename, 
+                                       (int)this.numericName.Value,
+                                       (int)this.numericArea.Value,
+                                       (int)this.numericCount.Value);
+
             this.btnBrowse.Hide();
             this.btnClose.Hide();
             this.btnImport.Hide();
             this.progressBar.Show();
             this.progressBar.Minimum = 1;
             this.progressBar.Maximum = parser.ProgramShapes.Count;
-            //this.progressBar.Maximum = Parser.ProgramShapes.Count;
             this.progressBar.Value = 1;
             this.progressBar.Step = 1;
 
             double spacing = 0.0;
             foreach (Shape s in parser.ProgramShapes)
-            //foreach (Shape s in Parser.ProgramShapes)
             {
                 this.progressBar.PerformStep();
                 MassFactory sf = new MassFactory(_ProjSet.Doc, s, spacing);

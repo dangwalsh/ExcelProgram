@@ -11,14 +11,22 @@ namespace ExcelProgram
         private char[] _Delimiter = new char[] { '\t' };
         private List<Shape> _ProgramShapes = new List<Shape>();
         private string _Invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+        private int _Incrementer = 2;
+        private int _nCol;
+        private int _aCol;
+        private int _cCol;
 
         public  List<Shape> ProgramShapes
         {
             get { return _ProgramShapes; }
         }
 
-        public Parser(string filename)
+        public Parser(string filename, int ncol, int acol, int ccol)
         {
+            _nCol = ncol;
+            _aCol = acol;
+            _cCol = ccol;
+
             StreamReader reader = File.OpenText(filename);
             string line;
             string[] a;
@@ -31,7 +39,7 @@ namespace ExcelProgram
                 double d;
                 int n;
 
-                for (int i = 2; i < 4; ++i)
+                for (int i = _nCol; i < _nCol + 2; ++i)
                 {
                     if (a[i] != "")
                     {
@@ -41,9 +49,15 @@ namespace ExcelProgram
                             s = s.Replace(c.ToString(), "");
                         }
 
-                        if (Double.TryParse(a[8], out d))
+                        if (_ProgramShapes.Any(shape => shape.Name == s))
                         {
-                            if (Int32.TryParse(a[9], out n))
+                            s += " " + _Incrementer;
+                            ++_Incrementer;
+                        }
+
+                        if (Double.TryParse(a[_aCol], out d))
+                        {
+                            if (Int32.TryParse(a[_cCol], out n))
                             {
                                 _ProgramShapes.Add(new Shape(s, d, n));
                             }

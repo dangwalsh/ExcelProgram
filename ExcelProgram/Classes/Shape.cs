@@ -8,6 +8,8 @@ namespace ExcelProgram
         private string _Name;
         private int _Count = 1;
         private double _Side = 10.0;
+        private bool _IsDefaultArea = false;
+        private bool _IsDefaultCount = false;
 
         public Point[] Points
         {
@@ -29,32 +31,30 @@ namespace ExcelProgram
             get { return _Count; }
         }
 
-        //public Shape(string name) // name only
-        //{
-        //    _Points[0].X = 0; _Points[0].Y = 0;
-        //    _Points[1].X = 10; _Points[1].Y = 0;
-        //    _Points[2].X = 10; _Points[2].Y = 10;
-        //    _Points[3].X = 0; _Points[3].Y = 10;
+        public bool IsDefaultArea
+        {
+            get { return _IsDefaultArea; }
+        }
 
-        //    _Name = name;
-        //}
+        public bool IsDefaultCount
+        {
+            get { return _IsDefaultCount; }
+        }
 
-        //public Shape(string name, double a) // area and name
-        //{
-        //    double n = Math.Sqrt(a);
+        public Shape(string name) // name only
+        {
+            _Points[0].X = 0; _Points[0].Y = 0;
+            _Points[1].X = 10; _Points[1].Y = 0;
+            _Points[2].X = 10; _Points[2].Y = 10;
+            _Points[3].X = 0; _Points[3].Y = 10;
 
-        //    _Points[0].X = 0; _Points[0].Y = 0;
-        //    _Points[1].X = n; _Points[1].Y = 0;
-        //    _Points[2].X = n; _Points[2].Y = n;
-        //    _Points[3].X = 0; _Points[3].Y = n;
+            _Name = name;
+            _Side = 10.0;
+            _Count = 1;
+            _IsDefaultArea = true;
+        }
 
-        //    _Name = name;
-        //    _Side = n;
-        //}
-
-        // make three separate overloaded constructors rather than default values
-        // and add data property to color default
-        public Shape(string n = "Default", double a = 100.0, int c = 1) 
+        public Shape(string name, double a) // area and name
         {
             double s = Math.Sqrt(a);
 
@@ -63,7 +63,22 @@ namespace ExcelProgram
             _Points[2].X = s; _Points[2].Y = s;
             _Points[3].X = 0; _Points[3].Y = s;
 
-            _Name = n;
+            _Name = name;
+            _Side = s;
+            _Count = 1;
+            _IsDefaultCount = true;
+        }
+
+        public Shape(string name, double a, int c) // area, name and count
+        {
+            double s = Math.Sqrt(a);
+
+            _Points[0].X = 0; _Points[0].Y = 0;
+            _Points[1].X = s; _Points[1].Y = 0;
+            _Points[2].X = s; _Points[2].Y = s;
+            _Points[3].X = 0; _Points[3].Y = s;
+
+            _Name = name;
             _Side = s;
             _Count = c;
         }
