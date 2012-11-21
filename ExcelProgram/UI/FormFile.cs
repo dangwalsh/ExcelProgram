@@ -42,7 +42,7 @@ namespace ExcelProgram
             dlg.Title = "Select Program Data File";
             dlg.CheckFileExists = true;
             dlg.CheckPathExists = true;
-            dlg.Filter = ".csv Files (*.csv)|*.csv";
+            dlg.Filter = ".txt Files (*.txt)|*.txt";
             bool result = (DialogResult.OK == dlg.ShowDialog());
             _Filename = dlg.FileName;
 
@@ -52,20 +52,24 @@ namespace ExcelProgram
         private void btnImport_Click(object sender, EventArgs e)
         {
             Parser parser = new Parser(_Filename);
+            //Parser.Run(_Filename);
             this.btnBrowse.Hide();
             this.btnClose.Hide();
             this.btnImport.Hide();
             this.progressBar.Show();
             this.progressBar.Minimum = 1;
             this.progressBar.Maximum = parser.ProgramShapes.Count;
+            //this.progressBar.Maximum = Parser.ProgramShapes.Count;
             this.progressBar.Value = 1;
             this.progressBar.Step = 1;
 
+            double spacing = 0.0;
             foreach (Shape s in parser.ProgramShapes)
+            //foreach (Shape s in Parser.ProgramShapes)
             {
                 this.progressBar.PerformStep();
-                MassFactory sf = new MassFactory(_ProjSet.Doc, s);
-                sf.Make();    
+                MassFactory sf = new MassFactory(_ProjSet.Doc, s, spacing);
+                spacing = sf.Make();
             }
             this.progressBar.Hide();
             this.btnBrowse.Show();

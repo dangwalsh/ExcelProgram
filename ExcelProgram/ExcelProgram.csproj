@@ -52,6 +52,8 @@
     <Compile Include="Classes\Point.cs" />
     <Compile Include="Classes\Shape.cs" />
     <Compile Include="Classes\ProjSet.cs" />
+    <Compile Include="FamilyLoadOpt.cs" />
+    <Compile Include="MatFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\MassFactory.cs" />
     <Compile Include="UI\FormFile.cs">

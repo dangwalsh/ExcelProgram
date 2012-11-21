@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.ApplicationServices;
+using Autodesk.Revit.DB.Structure;
 
 namespace ExcelProgram
 {
@@ -13,14 +15,21 @@ namespace ExcelProgram
     {
         private Document _ProjectDoc;
         private string _Name;
+        private int _Count;
+        private double _X;
+        private double _Y;
         private XYZ[] _Vertices = new XYZ[4];
         private const double _Height = 10.0;
         private const string _TemplateFileName = @"L:\4_Revit\Imperial Templates\Mass.rft";
+        private const string _TempLocation = @"C:\tmp\";
 
-        public MassFactory(Document projectDoc, Shape shape)
+        public MassFactory(Document projectDoc, Shape shape, double spacing)
         {
             _ProjectDoc = projectDoc;
             _Name = shape.Name;
+            _Count = shape.Count;
+            _X = spacing;
+            _Y = shape.Side;
 
             for (int i = 0; i < 4; ++i)
             {
@@ -28,7 +37,7 @@ namespace ExcelProgram
             }
         }
 
-        public void Make()
+        public double Make()
         {
             try
             {
@@ -38,6 +47,17 @@ namespace ExcelProgram
                     throw new Exception("Failed to open the family document");
                 }
                 CreateFamily(familyDoc);
+
+                if (!familyDoc.SaveAs(_TempLocation + _Name + @".rfa"))
+                {
+                    throw new Exception("Failed to save family document!");
+                }
+
+
+                /*
+                 * 
+                 * these statments load a family with no name
+                 * 
                 FamilySymbolSetIterator symbolItor = null;
                 Transaction transLoad = new Transaction(familyDoc, "Load Family");
                 if (transLoad.Start() == TransactionStatus.Started)
@@ -47,11 +67,47 @@ namespace ExcelProgram
                 }
                 transLoad.Commit();
                 familyDoc.Close(false);
+                 * 
+                 */
+                
+                FamilySymbolSetIterator symbolItor = null;
+                Transaction transLoad = new Transaction(familyDoc, "Load Family");
+                if (transLoad.Start() == TransactionStatus.Started)
+                {
+                    FamilyLoadOpt flo = new FamilyLoadOpt();
+                    Family family = familyDoc.LoadFamily(_ProjectDoc, flo);
+                    symbolItor = family.Symbols.ForwardIterator();
+                    transLoad.Commit();
+                }
+                
+
+                Transaction transPlace = new Transaction(_ProjectDoc, "PlaceFamily");
+                if (transPlace.Start() == TransactionStatus.Started)
+                {
+                    double y = 0.0;
+
+                    symbolItor.MoveNext();
+                    while (_Count > 0)
+                    {
+                        FamilySymbol symbol = symbolItor.Current as FamilySymbol;
+                        XYZ location = new XYZ(_X, y, 0.0);
+                        FamilyInstance instance = _ProjectDoc.Create.NewFamilyInstance(location, symbol, StructuralType.NonStructural);
+                        y += _Y;
+                        --_Count;
+                    }
+                    transPlace.Commit();
+                }
+                familyDoc.Close(false);
+
+                File.Delete(_TempLocation + _Name + @".rfa");
+
+                return _X + _Y;
             }
 
             catch (Exception ex)
             {
                 TaskDialog.Show("Load Error", ex.Message);
+                return 0.0;
             }
         }
 
@@ -89,7 +145,7 @@ namespace ExcelProgram
             ra.Append(mc.GeometryCurve.Reference);
             XYZ dir = new XYZ(0, 0, _Height);
             Form extrusion = familyDoc.FamilyCreate.NewExtrusionForm(true, ra, dir);
-
+           
             return extrusion;
         }
 
@@ -104,6 +160,30 @@ namespace ExcelProgram
             SketchPlane skplane = familyDoc.FamilyCreate.NewSketchPlane(plane);
 
             return familyDoc.FamilyCreate.NewModelCurve(line, skplane);
+        }
+
+        private Material CreateMaterial(Document familyDoc)
+        {
+
+            try
+            {
+                DateTime now = new DateTime();
+                Random r = new Random(now.Millisecond);
+                ElementId matid = Material.Create(familyDoc, _Name);
+                Material mat = familyDoc.GetElement(matid) as Material;
+                Color col = new Color((byte)r.Next(1, 255), 
+                                      (byte)r.Next(1, 255), 
+                                      (byte)r.Next(1, 255));
+                mat.Color = col;
+                mat.Transparency = 50;
+
+                return mat;
+            }
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Material Error", ex.Message);
+                return null;
+            }
         }
 
     }
