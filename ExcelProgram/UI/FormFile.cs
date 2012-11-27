@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 using Autodesk.Revit.UI;
 
@@ -9,6 +11,9 @@ namespace ExcelProgram
     {
         private ProjSet _ProjSet;
         private static string _Filename;
+        private static string _NameCol;
+        private static string _AreaCol;
+        private static string _CountCol;
         private static double _xPad;
         private static double _yPad;
 
@@ -22,29 +27,31 @@ namespace ExcelProgram
             get { return _yPad; }
         }
 
+        public static string NameCol
+        {
+            get { return _NameCol; }
+            set { _NameCol = value; }
+        }
+
+        public static string AreaCol
+        {
+            get { return _AreaCol; }
+            set { _AreaCol = value; }
+        }
+
+        public static string CountCol
+        {
+            get { return _CountCol; }
+            set { _CountCol = value; }
+        }
+
         public FormFile(ProjSet p)
         {
             InitializeComponent();
             this.progressBar.Hide();
-            _ProjSet = p;     
-        }
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!FileSelect())
-                {
-                    throw new Exception("Failed to open file!");
-                }
-            }
-
-            catch (Exception ex)
-            {
-                TaskDialog.Show("File Error", ex.Message);
-            }
-
-            labelPath.Text = _Filename;
+            this.numericPadX.Value = 8.0M;
+            this.numericPadY.Value = 4.0M;
+            _ProjSet = p;
         }
 
         static bool FileSelect()
@@ -61,37 +68,71 @@ namespace ExcelProgram
             return result;
         }
 
+        private void UpdateFields()
+        {
+            this.textBoxName.Text = _NameCol;
+            this.textBoxArea.Text = _AreaCol;
+            this.textBoxCount.Text = _CountCol;
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FileSelect())
+                {
+                    throw new Exception("Failed to open file!");
+                }
+                else
+                {
+                    DataParser dataParser = new DataParser(_Filename);
+                    FormTable formTable = new FormTable(ref dataParser);
+                    formTable.ShowDialog();
+                    UpdateFields();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                TaskDialog.Show("File Error", ex.Message);
+            }
+
+            labelPath.Text = _Filename;
+        }
+
         private void btnImport_Click(object sender, EventArgs e)
         {
-            _xPad = Convert.ToDouble(this.numericPadX.Value);
-            _yPad = Convert.ToDouble(this.numericPadY.Value);
-
-            Parser parser = new Parser(_Filename, 
-                                       (int)this.numericName.Value,
-                                       (int)this.numericArea.Value,
-                                       (int)this.numericCount.Value);
-
             this.btnBrowse.Hide();
             this.btnClose.Hide();
             this.btnImport.Hide();
             this.progressBar.Show();
             this.progressBar.Minimum = 1;
-            this.progressBar.Maximum = parser.ProgramShapes.Count;
+            this.progressBar.Maximum = ShapeMaker.Shapes.Count;
             this.progressBar.Value = 1;
             this.progressBar.Step = 1;
 
-            double spacing = 0.0;
-            foreach (Shape s in parser.ProgramShapes)
+            foreach (Shape s in ShapeMaker.Shapes)
             {
                 this.progressBar.PerformStep();
-                MassFactory sf = new MassFactory(_ProjSet.Doc, s, spacing);
-                spacing = sf.Make();
+                MassFactory sf = new MassFactory(_ProjSet.Doc, s);
+                sf.Make();
             }
+
             this.progressBar.Hide();
             this.btnBrowse.Show();
             this.btnClose.Show();
             this.btnImport.Show();
             this.progressBar.Value = 1;
+        }
+
+        private void numericPadX_ValueChanged(object sender, EventArgs e)
+        {
+            _xPad = Convert.ToDouble(this.numericPadX.Value);
+        }
+
+        private void numericPadY_ValueChanged(object sender, EventArgs e)
+        {
+            _yPad = Convert.ToDouble(this.numericPadY.Value);
         }
     }
 }

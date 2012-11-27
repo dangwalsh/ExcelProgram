@@ -36,26 +36,23 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.labelPath = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.numericName = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.numericArea = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericCount = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
             this.numericPadX = new System.Windows.Forms.NumericUpDown();
             this.numericPadY = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBoxCount = new System.Windows.Forms.TextBox();
+            this.textBoxArea = new System.Windows.Forms.TextBox();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericName)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericArea)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPadX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPadY)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -76,7 +73,7 @@
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnImport.Location = new System.Drawing.Point(216, 224);
+            this.btnImport.Location = new System.Drawing.Point(215, 224);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 23);
             this.btnImport.TabIndex = 1;
@@ -125,42 +122,6 @@
             this.progressBar.Size = new System.Drawing.Size(360, 23);
             this.progressBar.TabIndex = 1;
             // 
-            // numericName
-            // 
-            this.numericName.Location = new System.Drawing.Point(87, 31);
-            this.numericName.Name = "numericName";
-            this.numericName.Size = new System.Drawing.Size(40, 20);
-            this.numericName.TabIndex = 4;
-            this.numericName.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 33);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Name";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.numericArea);
-            this.groupBox2.Controls.Add(this.numericCount);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.numericName);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 81);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(175, 125);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Data Columns";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.numericPadX);
@@ -174,59 +135,13 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Formatting";
             // 
-            // numericArea
-            // 
-            this.numericArea.Location = new System.Drawing.Point(87, 60);
-            this.numericArea.Name = "numericArea";
-            this.numericArea.Size = new System.Drawing.Size(40, 20);
-            this.numericArea.TabIndex = 4;
-            this.numericArea.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Area";
-            // 
-            // numericCount
-            // 
-            this.numericCount.Location = new System.Drawing.Point(87, 87);
-            this.numericCount.Name = "numericCount";
-            this.numericCount.Size = new System.Drawing.Size(40, 20);
-            this.numericCount.TabIndex = 6;
-            this.numericCount.Value = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 89);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Count";
-            // 
             // numericPadX
             // 
             this.numericPadX.Location = new System.Drawing.Point(90, 31);
             this.numericPadX.Name = "numericPadX";
             this.numericPadX.Size = new System.Drawing.Size(40, 20);
             this.numericPadX.TabIndex = 8;
-            this.numericPadX.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
+            this.numericPadX.ValueChanged += new System.EventHandler(this.numericPadX_ValueChanged);
             // 
             // numericPadY
             // 
@@ -234,11 +149,7 @@
             this.numericPadY.Name = "numericPadY";
             this.numericPadY.Size = new System.Drawing.Size(40, 20);
             this.numericPadY.TabIndex = 10;
-            this.numericPadY.Value = new decimal(new int[] {
-            4,
-            0,
-            0,
-            0});
+            this.numericPadY.ValueChanged += new System.EventHandler(this.numericPadY_ValueChanged);
             // 
             // label4
             // 
@@ -257,6 +168,72 @@
             this.label5.Size = new System.Drawing.Size(56, 13);
             this.label5.TabIndex = 11;
             this.label5.Text = "Padding Y";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Name";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 89);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Count";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 62);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Area";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBoxCount);
+            this.groupBox2.Controls.Add(this.textBoxArea);
+            this.groupBox2.Controls.Add(this.textBoxName);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 81);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(175, 125);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Data Columns";
+            // 
+            // textBoxCount
+            // 
+            this.textBoxCount.Location = new System.Drawing.Point(58, 86);
+            this.textBoxCount.Name = "textBoxCount";
+            this.textBoxCount.ReadOnly = true;
+            this.textBoxCount.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCount.TabIndex = 10;
+            // 
+            // textBoxArea
+            // 
+            this.textBoxArea.Location = new System.Drawing.Point(58, 57);
+            this.textBoxArea.Name = "textBoxArea";
+            this.textBoxArea.ReadOnly = true;
+            this.textBoxArea.Size = new System.Drawing.Size(100, 20);
+            this.textBoxArea.TabIndex = 9;
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(58, 30);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.ReadOnly = true;
+            this.textBoxName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxName.TabIndex = 8;
             // 
             // FormFile
             // 
@@ -277,15 +254,12 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Import";
             this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericName)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericArea)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPadX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericPadY)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -299,17 +273,17 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label labelPath;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.NumericUpDown numericName;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.NumericUpDown numericArea;
-        private System.Windows.Forms.NumericUpDown numericCount;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.NumericUpDown numericPadX;
         private System.Windows.Forms.NumericUpDown numericPadY;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBoxCount;
+        private System.Windows.Forms.TextBox textBoxArea;
+        private System.Windows.Forms.TextBox textBoxName;
     }
 }

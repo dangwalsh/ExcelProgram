@@ -17,23 +17,24 @@ namespace ExcelProgram
         private Document _ProjectDoc;
         private string _Name;
         private int _Count;
-        private double _X;
+        private double _Side;
+        private static double _X = 0.0;
         private double _Y;
         private XYZ[] _Vertices = new XYZ[4];
         private const double _Height = 10.0;
         private const string _TemplateFileName = @"L:\4_Revit\Imperial Templates\Mass.rft";
-        private const string _TempLocation = @"C:\tmp\";
+        private const string _TempLocation = @"C:\masstmp";
         private const int _Padding = 4;
         private bool _IsDefaultArea;
         private bool _IsDefaultCount;
 
-        public MassFactory(Document projectDoc, Shape shape, double spacing)
+        public MassFactory(Document projectDoc, Shape shape)
         {
             _ProjectDoc = projectDoc;
             _Name = shape.Name;
             _Count = shape.Count;
-            _X = spacing + FormFile.xPad;
-            _Y = shape.Side + FormFile.yPad;
+            _Side = shape.Side;
+            _Y = _Side + FormFile.yPad;
             _IsDefaultArea = shape.IsDefaultArea;
             _IsDefaultCount = shape.IsDefaultCount;
 
@@ -41,9 +42,23 @@ namespace ExcelProgram
             {
                 _Vertices[i] = new XYZ(shape.Points[i].X, shape.Points[i].Y, 0.0);
             }
+
+            if (!Directory.Exists(_TempLocation)) Directory.CreateDirectory(_TempLocation);
         }
 
-        public double Make()
+        ~MassFactory()
+        {
+            try
+            {
+                Directory.Delete(_TempLocation, true);
+            }
+            catch (Exception ex)
+            {
+                //TaskDialog.Show("Cleanup Error", ex.Message);
+            }
+        }
+
+        public void Make()
         {
             try
             {
@@ -54,7 +69,7 @@ namespace ExcelProgram
                 }
                 CreateFamily(familyDoc);
 
-                if (!familyDoc.SaveAs(_TempLocation + _Name + @".rfa"))
+                if (!familyDoc.SaveAs(_TempLocation + @"\" + _Name + @".rfa"))
                 {
                     throw new Exception("Failed to save family document!");
                 }
@@ -87,15 +102,14 @@ namespace ExcelProgram
                 }
                 familyDoc.Close(false);
 
-                File.Delete(_TempLocation + _Name + @".rfa");
+                //File.Delete(_TempLocation + @"\" + _Name + @".rfa");
 
-                return _X + _Y;
+                _X += _Side + FormFile.xPad;
             }
 
             catch (Exception ex)
             {
                 TaskDialog.Show("Load Error", ex.Message);
-                return 0.0;
             }
         }
 

@@ -53,13 +53,21 @@
     <Compile Include="Classes\Shape.cs" />
     <Compile Include="Classes\ProjSet.cs" />
     <Compile Include="Classes\FamilyLoadOpt.cs" />
+    <Compile Include="Classes\DataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\MassFactory.cs" />
+    <Compile Include="ShapeMaker.cs" />
     <Compile Include="UI\FormFile.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FormFile.Designer.cs">
       <DependentUpon>FormFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FormTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FormTable.Designer.cs">
+      <DependentUpon>FormTable.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="UI\FormFile.resx">
       <DependentUpon>FormFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FormTable.resx">
+      <DependentUpon>FormTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
