@@ -56,7 +56,7 @@
     <Compile Include="Classes\DataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\MassFactory.cs" />
-    <Compile Include="ShapeMaker.cs" />
+    <Compile Include="Classes\ShapeMaker.cs" />
     <Compile Include="UI\FormFile.cs">
       <SubType>Form</SubType>
     </Compile>

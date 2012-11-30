@@ -73,6 +73,7 @@
             // btnImport
             // 
             this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.Location = new System.Drawing.Point(215, 224);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 23);
@@ -108,9 +109,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPath.Location = new System.Drawing.Point(16, 28);
+            this.labelPath.Location = new System.Drawing.Point(16, 18);
             this.labelPath.Name = "labelPath";
-            this.labelPath.Size = new System.Drawing.Size(328, 20);
+            this.labelPath.Size = new System.Drawing.Size(328, 34);
             this.labelPath.TabIndex = 0;
             // 
             // progressBar
