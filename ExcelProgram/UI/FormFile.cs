@@ -114,7 +114,7 @@ namespace ExcelProgram
             foreach (Shape s in ShapeMaker.Shapes)
             {
                 this.progressBar.PerformStep();
-                MassFactory sf = new MassFactory(_ProjSet.Doc, s);
+                ModelFactory sf = new ModelFactory(_ProjSet.Doc, s);
                 sf.Make();
             }
 

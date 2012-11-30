@@ -54,6 +54,7 @@
     <Compile Include="Classes\ProjSet.cs" />
     <Compile Include="Classes\FamilyLoadOpt.cs" />
     <Compile Include="Classes\DataParser.cs" />
+    <Compile Include="Classes\ModelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\MassFactory.cs" />
     <Compile Include="Classes\ShapeMaker.cs" />
