@@ -364,6 +364,8 @@ namespace ExcelProgram
                     mat.Transparency = 50;
                     mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
+                    mat.CutPattern = fill;
+                    mat.CutPatternColor = col;
 
                     return mat;
                 }
@@ -378,6 +380,8 @@ namespace ExcelProgram
                     mat.Transparency = 50;
                     mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
+                    mat.CutPattern = fill;
+                    mat.CutPatternColor = col;
 
                     return mat;
                 }
@@ -393,6 +397,8 @@ namespace ExcelProgram
                     mat.Transparency = 0;
                     mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
+                    mat.CutPattern = fill;
+                    mat.CutPatternColor = col;
 
                     return mat;
                 }
