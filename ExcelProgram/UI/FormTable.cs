@@ -42,7 +42,7 @@ namespace ExcelProgram
         {
             InitializeComponent();
 
-            _Data = DataParser.Table;
+            _Data = data.Table;
 
             _NameCol = new List<DataColumn>();
             _AreaCol = new List<DataColumn>();
@@ -71,7 +71,7 @@ namespace ExcelProgram
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            ShapeMaker shapeMaker = new ShapeMaker(_SelNameCol, _SelAreaCol, _SelCountCol);
+            ShapeMaker shapeMaker = new ShapeMaker(_Data, _SelNameCol, _SelAreaCol, _SelCountCol);
 
             FormFile.NameCol = _SelNameCol.ColumnName;
             FormFile.AreaCol = _SelAreaCol.ColumnName;

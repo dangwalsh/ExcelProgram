@@ -7,6 +7,7 @@ namespace ExcelProgram
         private Point[] _Points = new Point[4];
         private string _Name;
         private int _Count = 1;
+        private double _Area;
         private double _Side = 10.0;
         private bool _IsDefaultArea = false;
         private bool _IsDefaultCount = false;
@@ -19,6 +20,11 @@ namespace ExcelProgram
         public string Name
         {
             get { return _Name; }
+        }
+
+        public double Area
+        {
+            get { return _Area; }
         }
 
         public double Side
@@ -44,11 +50,12 @@ namespace ExcelProgram
         public Shape(string name) // name only
         {
             _Points[0].X = 0; _Points[0].Y = 0;
-            _Points[1].X = 10; _Points[1].Y = 0;
-            _Points[2].X = 10; _Points[2].Y = 10;
-            _Points[3].X = 0; _Points[3].Y = 10;
+            _Points[1].X = 9.9; _Points[1].Y = 0;
+            _Points[2].X = 9.9; _Points[2].Y = 9.9;
+            _Points[3].X = 0; _Points[3].Y = 9.9;
 
             _Name = name;
+            _Area = 98.01;
             _Side = 10.0;
             _Count = 1;
             _IsDefaultArea = true;
@@ -56,7 +63,8 @@ namespace ExcelProgram
 
         public Shape(string name, double a) // area and name
         {
-            double s = Math.Sqrt(a);
+            _Area = a;
+            double s = Math.Sqrt(_Area);
 
             _Points[0].X = 0; _Points[0].Y = 0;
             _Points[1].X = s; _Points[1].Y = 0;
@@ -71,7 +79,8 @@ namespace ExcelProgram
 
         public Shape(string name, double a, int c) // area, name and count
         {
-            double s = Math.Sqrt(a);
+            _Area = a;
+            double s = Math.Sqrt(_Area);
 
             _Points[0].X = 0; _Points[0].Y = 0;
             _Points[1].X = s; _Points[1].Y = 0;

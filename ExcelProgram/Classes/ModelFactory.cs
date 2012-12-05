@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,23 +15,29 @@ namespace ExcelProgram
     {
         private const string _template = @"L:\4_Revit\Imperial Templates\Generic Model.rft";
         private const string _tempfile = @"C:\famtemp";
+        private const int _padding = 4;
         private Document _projectDoc;
+
         private string _name;
         private double _area;
         private XYZ[] _vert = new XYZ[4];
         private int _count;
         private double _side;
-        private static double _X = 0.0;
-        private double _Y;
-        private const int _padding = 4;
         private bool _isDefaultArea;
         private bool _isDefaultCount;
+
+        private static double _X = 0.0;
+        private double _Y;
+        
         private ReferenceArray _width;
         private ReferenceArray _height;
+
+        private ArrayList _conArr;
         private ReferenceArray _leftCon;
         private ReferenceArray _botCon;
         private ReferenceArray _rightCon;
         private ReferenceArray _topCon;
+
         FamilyType _type;
         View _view;
 
@@ -49,7 +56,7 @@ namespace ExcelProgram
                 _vert[i] = new XYZ(shape.Points[i].X, shape.Points[i].Y, 0.0); 
             }
 
-            _area = Math.Pow(_side, 2);
+            _area = shape.Area;
 
             if (!Directory.Exists(_tempfile)) Directory.CreateDirectory(_tempfile);
         }
@@ -58,6 +65,7 @@ namespace ExcelProgram
         {
             try
             {
+                _X = 0.0;
                 Directory.Delete(_tempfile, true);
             }
             catch (Exception ex)
@@ -93,7 +101,7 @@ namespace ExcelProgram
                     transLoad.Commit();
                 }
 
-                Transaction transPlace = new Transaction(_projectDoc, "PlaceFamily");
+                Transaction transPlace = new Transaction(_projectDoc, "Place Family");
                 if (transPlace.Start() == TransactionStatus.Started)
                 {
                     double y = 0.0;
@@ -119,11 +127,13 @@ namespace ExcelProgram
                 TaskDialog.Show("Load Error", ex.Message);
             }
         }
+
         private void SetView(Document familyDoc)
         {
             FilteredElementCollector col = new FilteredElementCollector(familyDoc);
             col.OfCategory(BuiltInCategory.OST_Views).WhereElementIsNotElementType().ToElements();
 
+            // loop through views to find a plan view
             foreach (View v in col)
             {
                 if (v.ViewType == ViewType.FloorPlan) _view = v;
@@ -208,7 +218,6 @@ namespace ExcelProgram
         {
             try
             {
-                // familyDoc used to be _uiapp
                 Plane plane = familyDoc.Application.Create.NewPlane(new XYZ(0.0, 0.0, 1.0),
                                                                     new XYZ(0.0, 0.0, 0.0)
                                                                     );
@@ -226,14 +235,17 @@ namespace ExcelProgram
                 }
                 profile.Append(familyDoc.Application.Create.NewLineBound(_vert[i], _vert[i - i]));
                 caa.Append(profile);
+
                 Extrusion extrusion = familyDoc.FamilyCreate.NewExtrusion(true, caa, s_plane, 10.0);
+
                 AssignSubCategory(familyDoc, extrusion);
+
                 Line line = familyDoc.Application.Create.NewLine(_vert[0], _vert[1], true);
                 ConstructParam(familyDoc, _width, line, "Width");
                 line = familyDoc.Application.Create.NewLine(_vert[1], _vert[2], true);
                 ConstructParam(familyDoc, _height, line, "Height");
-                SetFormula(familyDoc);
 
+                SetFormula(familyDoc);
 
                 return extrusion;
             }
@@ -247,35 +259,43 @@ namespace ExcelProgram
 
         private void SetConstraints(Document familyDoc, Extrusion extrusion)
         {
-            CurveArrArray curvesArr = new CurveArrArray();
-            curvesArr = extrusion.Sketch.Profile;
-
-            foreach (CurveArray ca in curvesArr)
+            try
             {
-                CurveArrayIterator itor = ca.ForwardIterator();
-                itor.Reset();
-                itor.MoveNext();
-                Line l = itor.Current as Line;
-                _rightCon.Append(l.Reference);
-                itor.MoveNext();
-                l = itor.Current as Line;
-                _topCon.Append(l.Reference);
-                itor.MoveNext();
-                l = itor.Current as Line;
-                _leftCon.Append(l.Reference);
-                l = itor.Current as Line;
-                _botCon.Append(l.Reference);
+                CurveArrArray curvesArr = new CurveArrArray();
+                curvesArr = extrusion.Sketch.Profile;
+
+                foreach (CurveArray ca in curvesArr)
+                {
+                    CurveArrayIterator itor = ca.ForwardIterator();
+                    itor.Reset();
+                    itor.MoveNext();
+                    Line l = itor.Current as Line;
+                    _rightCon.Append(l.Reference);
+                    itor.MoveNext();
+                    l = itor.Current as Line;
+                    _topCon.Append(l.Reference);
+                    itor.MoveNext();
+                    l = itor.Current as Line;
+                    _leftCon.Append(l.Reference);
+                    l = itor.Current as Line;
+                    _botCon.Append(l.Reference);
+                }
+                ReferenceArrayArray conArray = new ReferenceArrayArray();
+
+                conArray.Append(_rightCon);
+                conArray.Append(_topCon);
+                conArray.Append(_leftCon);
+                conArray.Append(_botCon);
+
+                ConstructConstraint(familyDoc, _rightCon);
+                ConstructConstraint(familyDoc, _topCon);
+                ConstructConstraint(familyDoc, _leftCon);
             }
-            ReferenceArrayArray conArray = new ReferenceArrayArray();
 
-            conArray.Append(_rightCon);
-            conArray.Append(_topCon);
-            conArray.Append(_leftCon);
-            conArray.Append(_botCon);
-
-            ConstructConstraint(familyDoc, _rightCon);
-            ConstructConstraint(familyDoc, _topCon);
-            ConstructConstraint(familyDoc, _leftCon);
+            catch (Exception ex)
+            {
+                TaskDialog.Show("Constraint Error", ex.Message);
+            }
         }
 
         private void ConstructConstraint(Document familyDoc, ReferenceArray ra)
@@ -358,10 +378,10 @@ namespace ExcelProgram
                     ElementId matid = Material.Create(familyDoc, _name);
                     Material mat = familyDoc.GetElement(matid) as Material;
                     Color col = new Color(255,
-                                          0,
-                                          0);
+                                          255,
+                                          255);
                     mat.Color = col;
-                    mat.Transparency = 50;
+                    mat.Transparency = 75;
                     mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
                     mat.CutPattern = fill;
@@ -377,7 +397,7 @@ namespace ExcelProgram
                                           0,
                                           255);
                     mat.Color = col;
-                    mat.Transparency = 50;
+                    mat.Transparency = 75;
                     mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
                     mat.CutPattern = fill;

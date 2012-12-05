@@ -25,9 +25,9 @@ namespace ExcelProgram
             get { return _Shapes; }
         }
 
-        public ShapeMaker(DataColumn n, DataColumn a, DataColumn c)
+        public ShapeMaker(DataTable data, DataColumn n, DataColumn a, DataColumn c)
         {
-            _Data = DataParser.Table;
+            _Data = data;
             _NCol = n.Ordinal;
             _ACol = a.Ordinal;
             _CCol = c.Ordinal;
@@ -45,7 +45,7 @@ namespace ExcelProgram
                     {
                         foreach (char ch in _Invalid)
                         {
-                            name = name.Replace(ch.ToString(), "");
+                            name = name.Replace(ch.ToString(), " ");
                         }
 
                         if (_Shapes.Any(shape => shape.Name == name))
@@ -66,7 +66,15 @@ namespace ExcelProgram
                                     {
                                         _Shapes.Add(new Shape(name, area, count));
                                     }
+                                    else
+                                    {
+                                        _Shapes.Add(new Shape(name, area));
+                                    }
                                 }
+                            }
+                            else
+                            {
+                                _Shapes.Add(new Shape(name));
                             }
                         }
                     }

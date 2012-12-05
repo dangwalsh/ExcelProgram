@@ -12,16 +12,17 @@ namespace ExcelProgram
         private char[] _Delimiter = new char[] { '\t' };
         private char[] _Quotes = new char[] { '"' };
         private string _Name;
-        private static DataTable _Table;
+        private DataTable _Table;
 
         public string Name
         {
             get { return _Name; }
         }
 
-        public static DataTable Table
+        public DataTable Table
         {
             get { return _Table; }
+            set { _Table = value; }
         }
 
         public DataParser(string filename)
