@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -328,8 +328,15 @@ namespace ExcelProgram
         private void SetFormula(Document familyDoc)
         {
             _type = familyDoc.FamilyManager.NewType(_name);
-            familyDoc.FamilyManager.AddParameter("Area", BuiltInParameterGroup.PG_CONSTRAINTS, ParameterType.Area, true);
-            FamilyParameter param = familyDoc.FamilyManager.get_Parameter("Area");
+            string newParamName = "Program Area";
+            //
+            //familyDoc.FamilyManager.AddParameter("Area", BuiltInParameterGroup.PG_CONSTRAINTS, ParameterType.Area, true);
+            // replaced by line below
+            ParameterBinding paramBind = new ParameterBinding(familyDoc, "Areas", newParamName);
+            //
+            //FamilyParameter param = familyDoc.FamilyManager.get_Parameter("Area");
+            // replaced by line below
+            FamilyParameter param = familyDoc.FamilyManager.get_Parameter(newParamName);
             if (null != param)
             {
                 familyDoc.FamilyManager.Set(param, _area);
@@ -337,7 +344,8 @@ namespace ExcelProgram
             param = familyDoc.FamilyManager.get_Parameter("Height");
             if (null != param)
             {
-                familyDoc.FamilyManager.SetFormula(param, @"Area / Width");
+                // familyDoc.FamilyManager.SetFormula(param, @"Area / Width");
+                familyDoc.FamilyManager.SetFormula(param, @"Program Area / Width");
             }
         }
 

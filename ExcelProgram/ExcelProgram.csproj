@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Entry\Command.cs" />
+    <Compile Include="Classes\ParameterBinding.cs" />
     <Compile Include="Classes\Parser.cs" />
     <Compile Include="Classes\Point.cs" />
     <Compile Include="Classes\Shape.cs" />
