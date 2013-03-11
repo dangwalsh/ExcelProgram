@@ -35,43 +35,7 @@ namespace ExcelProgram
                 bool result = AddSharedParameter();
             }
         }
-        /*
-        private DefinitionFile SetAndOpenExternalSharedParamFile(Application app, string sharedParamFile)
-        {
-            // set the path of shared parameter file to current Revit
-            app.SharedParametersFilename = sharedParamFile;
-            // open the file
-            return app.OpenSharedParameterFile();
-        }
-        
-        public bool SetNewParameterToTypeGenMod()
-        {
-            // Create a new group in the shared parameters file
-            DefinitionGroups groups = this._defFile.Groups;
-            DefinitionGroup group = groups.get_Item("Area");
-            if (null == group) return false;
-            // get the definitions in that group
-            Definitions definitions = group.Definitions;
-            // get the definition named Program Area
-            ExternalDefinition extDef = definitions.get_Item("Program Area") as ExternalDefinition;
-            if (null == extDef) return false;
-            
-            // Create a category set and insert category of wall to it
-            CategorySet categories = this._uiapp.Application.Create.NewCategorySet();
-            // Use BuiltInCategory to get category of wall
-            Category category = this._uiapp.ActiveUIDocument.Document.Settings.Categories.get_Item(BuiltInCategory.OST_GenericModel);
 
-            categories.Insert(category);
-            //Create an object of TypeBinding according to the Categories
-            InstanceBinding instanceBinding = this._uiapp.Application.Create.NewInstanceBinding(categories);
-            // Get the BingdingMap of current document.
-            BindingMap bindingMap = this._uiapp.ActiveUIDocument.Document.ParameterBindings;
-            // Bind the definitions to the document
-            bool typeBindOK = bindingMap.Insert(extDef, instanceBinding, BuiltInParameterGroup.PG_AREA);
-
-            return typeBindOK;
-        }
-        */
         private bool LoadSharedParameterFromFile(out bool exist)
         {
             exist = true;
@@ -128,7 +92,7 @@ namespace ExcelProgram
             }
             catch (System.Exception e)
             {
-                //MessageManager.MessageBuff.AppendLine(e.Message);
+                TaskDialog.Show("Error", e.Message);
                 return false;
             }
 
