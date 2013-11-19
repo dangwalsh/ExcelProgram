@@ -68,12 +68,12 @@ namespace ExcelProgram
                     throw new Exception("Failed to open the family document");
                 }
                 CreateFamily(familyDoc);
-
+                /*
                 if (!familyDoc.SaveAs(_TempLocation + @"\" + _Name + @".rfa"))
                 {
                     throw new Exception("Failed to save family document!");
                 }
-                
+                */
                 FamilySymbolSetIterator symbolItor = null;
                 Transaction transLoad = new Transaction(familyDoc, "Load Family");
                 if (transLoad.Start() == TransactionStatus.Started)

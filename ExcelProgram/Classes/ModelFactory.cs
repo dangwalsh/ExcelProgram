@@ -85,12 +85,12 @@ namespace ExcelProgram
                 }
                 SetView(familyDoc);
                 BuildFamily(familyDoc);
-
+                /*
                 if (!familyDoc.SaveAs(_tempfile + @"\" + _name + @".rfa"))
                 {
                     throw new Exception("Failed to save family document!");
                 }
-
+                */
                 FamilySymbolSetIterator symbolItor = null;
                 Transaction transLoad = new Transaction(familyDoc, "Load Family");
                 if (transLoad.Start() == TransactionStatus.Started)
@@ -390,9 +390,9 @@ namespace ExcelProgram
                                           255);
                     mat.Color = col;
                     mat.Transparency = 75;
-                    mat.SurfacePattern = fill;
+                    //mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
-                    mat.CutPattern = fill;
+                    //mat.CutPattern = fill;
                     mat.CutPatternColor = col;
 
                     return mat;
@@ -406,9 +406,9 @@ namespace ExcelProgram
                                           255);
                     mat.Color = col;
                     mat.Transparency = 75;
-                    mat.SurfacePattern = fill;
+                    //mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
-                    mat.CutPattern = fill;
+                    //mat.CutPattern = fill;
                     mat.CutPatternColor = col;
 
                     return mat;
@@ -423,9 +423,9 @@ namespace ExcelProgram
                                           (byte)r.Next(1, 255));
                     mat.Color = col;
                     mat.Transparency = 0;
-                    mat.SurfacePattern = fill;
+                    //mat.SurfacePattern = fill;
                     mat.SurfacePatternColor = col;
-                    mat.CutPattern = fill;
+                    //mat.CutPattern = fill;
                     mat.CutPatternColor = col;
 
                     return mat;
