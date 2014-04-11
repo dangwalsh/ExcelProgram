@@ -59,11 +59,13 @@ namespace ExcelProgram
                             double area;
                             if (Double.TryParse(row[j].ToString(), out area))
                             {
+                                if (area == 0) continue;
                                 for (int k = _CCol; k < _CCol + _CCnt + 1; ++k)
                                 {
                                     int count;
                                     if (Int32.TryParse(row[k].ToString(), out count))
                                     {
+                                        if (count == 0) continue;
                                         _Shapes.Add(new Shape(name, area, count));
                                     }
                                     else
