@@ -367,17 +367,26 @@ namespace ExcelProgram
 
         private Material CreateMaterial(Document familyDoc)
         {
-            FillPatternElement fill = null;
-            FilteredElementCollector collector = new FilteredElementCollector(familyDoc);
-            ICollection<FillPatternElement> fillPatternElements = collector.OfClass(typeof(FillPatternElement)).Cast<FillPatternElement>().ToList();
+            Dictionary<string, FillPatternElement> fillPatterns
+                = new FilteredElementCollector(familyDoc)
+                .OfClass(typeof(FillPatternElement))
+                .Cast<FillPatternElement>()
+                .ToDictionary<FillPatternElement, string>(e => e.Name);
 
-            foreach (FillPatternElement fillPattern in fillPatternElements)
-            {
-                if (fillPattern.Name == "Solid fill")
-                {
-                    fill = fillPattern;
-                }
-            }
+            ////FillPatternElement fill = null;
+            ElementId fillId = null;
+            //FilteredElementCollector collector = new FilteredElementCollector(familyDoc);
+            //ICollection<FillPatternElement> fillPatternElements = collector.OfClass(typeof(FillPatternElement)).Cast<FillPatternElement>().ToList();
+
+            //foreach (FillPatternElement fillPattern in fillPatternElements)
+            //{
+            //    if (fillPattern.Name == "Solid fill")
+            //    {
+            //        //fill = fillPattern;
+            //        fillId = fillPattern.Id;
+            //    }
+            //}
+            fillId = fillPatterns["Solid fill"].Id;
 
             try
             {
@@ -391,8 +400,10 @@ namespace ExcelProgram
                     mat.Color = col;
                     mat.Transparency = 75;
                     //mat.SurfacePattern = fill;
+                    //mat.SurfacePatternId = fillId;
                     mat.SurfacePatternColor = col;
                     //mat.CutPattern = fill;
+                    //mat.CutPatternId = fillId;
                     mat.CutPatternColor = col;
 
                     return mat;
@@ -407,8 +418,10 @@ namespace ExcelProgram
                     mat.Color = col;
                     mat.Transparency = 75;
                     //mat.SurfacePattern = fill;
+                    //mat.SurfacePatternId = fillId;
                     mat.SurfacePatternColor = col;
                     //mat.CutPattern = fill;
+                    //mat.CutPatternId = fillId;
                     mat.CutPatternColor = col;
 
                     return mat;
@@ -424,8 +437,10 @@ namespace ExcelProgram
                     mat.Color = col;
                     mat.Transparency = 0;
                     //mat.SurfacePattern = fill;
+                    //mat.SurfacePatternId = fillId;
                     mat.SurfacePatternColor = col;
                     //mat.CutPattern = fill;
+                    //mat.CutPatternId = fillId;
                     mat.CutPatternColor = col;
 
                     return mat;
